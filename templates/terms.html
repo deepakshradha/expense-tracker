@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Terms & Conditions | Spendly{% endblock %}
+
+{% block head %}
+<style>
+    .terms-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        color: var(--ink-soft);
+    }
+
+    .terms-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .terms-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--ink);
+        margin-bottom: 1rem;
+    }
+
+    .effective-date {
+        font-size: 0.9rem;
+        color: var(--ink-muted);
+        font-weight: 500;
+    }
+
+    .terms-section {
+        margin-bottom: 2.5rem;
+        line-height: 1.8;
+    }
+
+    .terms-section h2 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--ink);
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.5rem;
+    }
+
+    .terms-section p {
+        margin-bottom: 1rem;
+        font-size: 1rem;
+    }
+
+    .terms-section ul {
+        margin-bottom: 1rem;
+        padding-left: 1.5rem;
+    }
+
+    .terms-section li {
+        margin-bottom: 0.5rem;
+    }
+
+    .last-updated {
+        text-align: center;
+        margin-top: 5rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+        font-size: 0.85rem;
+        color: var(--ink-muted);
+    }
+
+    @media (max-width: 600px) {
+        .terms-container {
+            padding: 2rem 1.5rem;
+        }
+        .terms-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="terms-container">
+    <header class="terms-header">
+        <h1 class="terms-title">Terms & Conditions</h1>
+        <p class="effective-date">Effective Date: June 5, 2026</p>
+    </header>
+
+    <div class="terms-body">
+        <section class="terms-section">
+            <h2>1. Acceptance of Terms</h2>
+            <p>By accessing and using the Spendly application, you agree to be bound by these Terms and Conditions. If you do not agree to all of these terms, you are expressly prohibited from using the application and you must discontinue use immediately.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>2. Eligibility</h2>
+            <p>You must be at least 18 years of age or the age of majority in your jurisdiction to use this service. By creating an account, you represent and warrant that you meet these eligibility requirements.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>3. User Accounts</h2>
+            <p>When you create an account with Spendly, you must provide information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account.</p>
+            <p>You are responsible for safeguarding the password that you use to access the Service and for any loss of data, property forecasts, or monetary loss that may occur as a result of unauthorized use of your account.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>4. User Responsibilities</h2>
+            <p>You agree to use the application only for lawful purposes. You are solely responsible for the accuracy of the financial data you enter into the application. Spendly is a tool for tracking and does not provide professional financial, legal, or tax advice.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>5. Data and Content Ownership</h2>
+            <p>You retain all rights to the data you input into the application. By using the service, you grant Spendly a limited license to host and process this data solely for the purpose of providing the service to you.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>6. Acceptable Use Policy</h2>
+            <p>You agree not to engage in any of the following prohibited activities:</p>
+            <ul>
+                <li>Attempting to reverse engineer or disrupt the application's infrastructure.</li>
+                <li>Using the service to distribute spam or malicious software.</li>
+                <li>Using the service for any illegal or unauthorized purpose.</li>
+                <li>Impersonating any person or entity.</li>
+            </ul>
+        </section>
+
+        <section class="terms-section">
+            <h2>7. Privacy and Data Handling</h2>
+            <p>Your privacy is important to us. Please refer to our Privacy Policy for detailed information on how we collect, use, and protect your personal information and financial data.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>8. Intellectual Property Rights</h2>
+            <p>All content, features, and functionality (including but not limited to text, graphics, logos, and icons) are the exclusive property of Spendly and are protected by copyright, trademark, and other intellectual property laws.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>9. Third-Party Services</h2>
+            <p>The application may contain links to third-party websites or services that are not owned or controlled by Spendly. We assume no responsibility for the content, privacy policies, or practices of any third-party services.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>10. Service Availability</h2>
+            <p>We strive to maintain high availability of our service, but we do not guarantee that the application will be available at all times. Spendly reserves the right to perform maintenance or updates that may result in temporary downtime.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>11. Disclaimer of Warranties</h2>
+            <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. SPENDLY DOES NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, ERROR-FREE, OR COMPLETELY SECURE.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>12. Limitation of Liability</h2>
+            <p>In no event shall Spendly, nor its directors, employees, or partners, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>13. Indemnification</h2>
+            <p>You agree to defend, indemnify, and hold harmless Spendly and its licensees and licensors from and against any and all claims, damages, obligations, losses, liabilities, costs or debts, and all related attorney's fees resulting from your use of and access to the Service.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>14. Account Suspension and Termination</h2>
+            <p>We reserve the right, in our sole discretion, to terminate or suspend your account and access to all or part of the Service, including without notice, for conduct that we believe violates these Terms.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>15. Modifications to the Service</h2>
+            <p>We reserve the right to modify or discontinue the Service, or any part thereof, at any time. We may also update the application's features and interface to improve user experience.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>16. Changes to Terms</h2>
+            <p>We reserve the right to modify these Terms at any time. We will provide notice of any material changes by posting the new Terms on this page and updating the "Last Updated" date.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>17. Governing Law</h2>
+            <p>These Terms shall be governed and construed in accordance with the laws of the jurisdiction in which Spendly operates, without regard to its conflict of law provisions.</p>
+        </section>
+
+        <section class="terms-section">
+            <h2>18. Contact Information</h2>
+            <p>If you have any questions about these Terms, please contact us at: <br>
+            <strong>Email:</strong> support@spendly.example.com<br>
+            <strong>Address:</strong> 123 Finance Lane, Wealth City, 56789</p>
+        </section>
+    </div>
+
+    <footer class="last-updated">
+        <p>Last Updated: June 5, 2026</p>
+    </footer>
+</div>
+{% endblock %}

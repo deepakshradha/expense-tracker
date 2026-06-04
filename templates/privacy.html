@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy | Spendly{% endblock %}
+
+{% block head %}
+<style>
+    .privacy-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        color: var(--ink-soft);
+    }
+
+    .privacy-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .privacy-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--ink);
+        margin-bottom: 1rem;
+    }
+
+    .effective-date {
+        font-size: 0.9rem;
+        color: var(--ink-muted);
+        font-weight: 500;
+    }
+
+    .privacy-section {
+        margin-bottom: 2.5rem;
+        line-height: 1.8;
+    }
+
+    .privacy-section h2 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--ink);
+        margin-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 0.5rem;
+    }
+
+    .privacy-section h3 {
+        font-size: 1.1rem;
+        color: var(--ink);
+        margin: 1.5rem 0 0.5rem;
+    }
+
+    .privacy-section p {
+        margin-bottom: 1rem;
+        font-size: 1rem;
+    }
+
+    .privacy-section ul {
+        margin-bottom: 1rem;
+        padding-left: 1.5rem;
+    }
+
+    .privacy-section li {
+        margin-bottom: 0.5rem;
+    }
+
+    .last-updated {
+        text-align: center;
+        margin-top: 5rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+        font-size: 0.85rem;
+        color: var(--ink-muted);
+    }
+
+    @media (max-width: 600px) {
+        .privacy-container {
+            padding: 2rem 1.5rem;
+        }
+        .privacy-title {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="privacy-container">
+    <header class="privacy-header">
+        <h1 class="privacy-title">Privacy Policy</h1>
+        <p class="effective-date">Effective Date: June 5, 2026 | Last Updated: June 5, 2026</p>
+    </header>
+
+    <div class="privacy-body">
+        <section class="privacy-section">
+            <h2>1. Introduction</h2>
+            <p>Welcome to Spendly. We value your privacy and are committed to protecting your personal data. This Privacy Policy explains how Spendly ("we", "our", or "us") collects, uses, and protects your information when you use our personal finance and expense tracking platform.</p>
+            <p>Our service is intended for personal financial management purposes. By using Spendly, you trust us with your information, and we strive to treat it with the utmost care and transparency.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>2. Information We Collect</h2>
+            <p>We collect information that you provide directly to us, as well as information generated automatically during your use of the service.</p>
+
+            <h3>Account Information</h3>
+            <p>When you register for a Spendly account, we collect personal details such as your name, email address, and password. This information is used to identify you and manage your account.</p>
+
+            <h3>Financial and Expense Data</h3>
+            <p>The core of our service involves tracking your finances. We collect the financial data, transaction details, and expense categories that you manually enter into the application. <strong>Users retain full ownership of all financial data they enter into Spendly.</strong></p>
+
+            <h3>Device and Usage Information</h3>
+            <p>We may collect information about the device you use to access Spendly, including your IP address, browser type, operating system, and how you interact with our platform (e.g., pages visited, features used).</p>
+
+            <h3>Cookies and Similar Technologies</h3>
+            <p>We use cookies and similar tracking technologies to remember your preferences, keep you logged in, and analyze our traffic to improve the user experience.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>3. How We Use Information</h2>
+            <p>We use the collected information for the following purposes:</p>
+            <ul>
+                <li>To provide, maintain, and improve the Spendly expense tracking service.</li>
+                <li>To manage your account and provide customer support.</li>
+                <li>To personalize your experience and provide relevant insights into your spending habits.</li>
+                <li>To monitor and analyze usage patterns to optimize performance and security.</li>
+                <li>To communicate with you about your account or service updates.</li>
+            </ul>
+        </section>
+
+        <section class="privacy-section">
+            <h2>4. Data Storage and Security</h2>
+            <p>We implement reasonable technical and organizational security measures to protect your data against unauthorized access, loss, or alteration.</p>
+            <p>However, please be aware that no online service can guarantee absolute security. While we strive to use industry-standard protections, we cannot ensure that your data will be 100% secure from all possible threats.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>5. Data Retention</h2>
+            <p>We retain your information for as long as your account is active or as needed to provide you with the service. If you choose to delete your account, we will remove your personal data from our active databases, subject to legal requirements or necessary backup retention periods.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>6. Sharing of Information</h2>
+            <p><strong>Spendly does not sell your personal information or financial data to third parties.</strong></p>
+            <p>We may only share information in the following limited circumstances:</p>
+            <ul>
+                <li>With your explicit consent.</li>
+                <li>To comply with legal obligations, such as responding to a court order or subpoena.</li>
+                <li>To protect the rights, property, or safety of Spendly, our users, or others.</li>
+            </ul>
+        </section>
+
+        <section class="privacy-section">
+            <h2>7. Third-Party Services</h2>
+            <p>Our application may utilize third-party services (such as hosting providers) to operate. These providers are bound by their own privacy policies and are only permitted to use your data to provide the specific services they perform for us.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>8. Cookies Policy</h2>
+            <p>You can control and manage cookies through your browser settings. Please note that disabling certain cookies may affect the functionality of the Spendly application and may prevent you from using some features.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>9. User Rights and Controls</h2>
+            <p>Depending on your jurisdiction, you may have the following rights regarding your data:</p>
+            <ul>
+                <li>The right to access the personal data we hold about you.</li>
+                <li>The right to request the correction of inaccurate data.</li>
+                <li>The right to request the deletion of your data.</li>
+                <li>The right to export your data in a portable format.</li>
+            </ul>
+            <p>To exercise these rights, please contact us at the email address provided below.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>10. Children's Privacy</h2>
+            <p>Spendly is not directed to children under the age of 13 (or the applicable age in your jurisdiction). We do not knowingly collect personal information from children. If we become aware that a child has provided us with personal information, we will take reasonable steps to delete it.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>11. International Data Transfers</h2>
+            <p>Your information may be transferred to and processed in countries other than the one in which you reside. By using our service, you consent to the transfer of your information to these locations, where data protection laws may differ from those in your home country.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>12. Changes to This Privacy Policy</h2>
+            <p>We may update this Privacy Policy from time to time to reflect changes in our practices or for legal reasons. We will notify you of any material changes by updating the "Last Updated" date at the top of this page.</p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>13. Contact Information</h2>
+            <p>If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us at:</p>
+            <p>
+                <strong>Company:</strong> Spendly Inc.<br>
+                <strong>Email:</strong> <a href="mailto:privacy@spendly.example.com">privacy@spendly.example.com</a><br>
+                <strong>Website:</strong> www.spendly.example.com
+            </p>
+        </section>
+    </div>
+
+    <footer class="last-updated">
+        <p>Last Updated: June 5, 2026</p>
+    </footer>
+</div>
+{% endblock %}
