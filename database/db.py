@@ -79,3 +79,16 @@ def seed_db():
         sample_expenses
     )
     db.commit()
+
+def create_user(name, email, password_hash):
+    """Creates a new user in the database. Returns user_id or None if email exists."""
+    db = get_db()
+    try:
+        cursor = db.execute(
+            'INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)',
+            (name, email, password_hash)
+        )
+        db.commit()
+        return cursor.lastrowid
+    except sqlite3.IntegrityError:
+        return None
