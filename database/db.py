@@ -92,3 +92,9 @@ def create_user(name, email, password_hash):
         return cursor.lastrowid
     except sqlite3.IntegrityError:
         return None
+
+def get_user_by_email(email):
+    """Retrieves a user by their email. Returns the user record or None."""
+    db = get_db()
+    return db.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+
