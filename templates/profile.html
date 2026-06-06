@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile — Spendly{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <header class="page-header">
+        <div class="page-header-content">
+            <h1>My Profile</h1>
+            <p>Welcome back! Here is your financial overview.</p>
+        </div>
+    </header>
+
+    <!-- Top Summary Row -->
+    <section class="summary-grid">
+        <!-- Total Expenses Card -->
+        <div class="summary-card danger">
+            <div class="card-title">
+                Total Expenses
+                <span class="status-icon">−</span>
+            </div>
+            <div class="card-value">₹{{ "%.2f"|format(total_spending) }}</div>
+            <div class="card-meta">Aggregated from all transactions</div>
+        </div>
+
+        <!-- Account Status Card -->
+        <div class="summary-card success">
+            <div class="card-title">
+                Account Status
+                <span class="status-icon">✓</span>
+            </div>
+            <div class="card-value">Active</div>
+            <div class="card-meta">Verified member since 2026</div>
+        </div>
+
+        <!-- Activity Level Card -->
+        <div class="summary-card">
+            <div class="card-title">
+                Activity Level
+                <span class="status-icon" style="background: var(--color-primary-light); color: var(--color-primary);">◈</span>
+            </div>
+            <div class="card-value">Stable</div>
+            <div class="card-meta">Consistent monthly tracking</div>
+        </div>
+    </section>
+
+    <!-- Detailed Sections -->
+    <section class="detail-grid">
+        <!-- Personal Information -->
+        <div class="detail-card">
+            <h2>Personal Information</h2>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label">Full Name</span>
+                    <span class="info-value">{{ user.name }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Email Address</span>
+                    <span class="info-value">{{ user.email }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Member Status</span>
+                    <span class="info-value">Premium</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Overview -->
+        <div class="detail-card">
+            <h2>Financial Overview</h2>
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label">Currency</span>
+                    <span class="info-value">INR (₹)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tracking Period</span>
+                    <span class="info-value">Life-time</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Budget Status</span>
+                    <span class="info-value" style="color: var(--color-success);">On Track</span>
+                </div>
+            </div>
+            <a href="{{ url_for('landing') }}" class="btn-action">
+                <span>View detailed transactions</span>
+                <span class="arrow">→</span>
+            </a>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,176 @@
+.profile-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+.page-header {
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.page-header-content h1 {
+    font-size: var(--text-3xl);
+    color: var(--color-text-primary);
+    margin: 0 0 0.5rem 0;
+    font-weight: 700;
+}
+
+.page-header-content p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-base);
+    margin: 0;
+}
+
+/* Summary Row */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.summary-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.summary-card .card-title {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-card .card-value {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.summary-card .card-meta {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+}
+
+/* Semantic variants for summary cards */
+.summary-card.danger .card-value {
+    color: var(--color-danger);
+}
+
+.summary-card.success .card-value {
+    color: var(--color-success);
+}
+
+.summary-card .status-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xs);
+    font-weight: bold;
+}
+
+.summary-card.danger .status-icon {
+    background: #FEE2E2;
+    color: var(--color-danger);
+}
+
+.summary-card.success .status-icon {
+    background: #D1FAE5;
+    color: var(--color-success);
+}
+
+/* Detail Section */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.detail-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.detail-card h2 {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-label {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: var(--text-base);
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    text-decoration: none;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    transition: color 0.2s;
+}
+
+.btn-action:hover {
+    color: var(--color-primary-dark);
+}
+
+@media (max-width: 768px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
