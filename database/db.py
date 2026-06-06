@@ -98,3 +98,13 @@ def get_user_by_email(email):
     db = get_db()
     return db.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
 
+def get_user_by_id(user_id):
+    """Retrieves a user by their ID. Returns the user record or None."""
+    db = get_db()
+    return db.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+
+def get_user_total_spending(user_id):
+    """Calculates the sum of all expenses for a given user. Returns the total or 0.0 if none."""
+    db = get_db()
+    result = db.execute('SELECT SUM(amount) as total FROM expenses WHERE user_id = ?', (user_id,)).fetchone()
+    return result['total'] if result and result['total'] is not None else 0.0
