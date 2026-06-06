@@ -17,6 +17,10 @@ def landing():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if session.get("user_id"):
+        flash("You are already logged in", "info")
+        return redirect(url_for("landing"))
+
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
@@ -41,6 +45,10 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if session.get("user_id"):
+        flash("You are already logged in", "info")
+        return redirect(url_for("landing"))
+
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
@@ -77,7 +85,9 @@ def privacy():
 
 @app.route("/logout")
 def logout():
-    return "Logout — coming in Step 3"
+    session.pop('user_id', None)
+    flash("You have been logged out successfully", "success")
+    return redirect(url_for("landing"))
 
 
 @app.route("/profile")
