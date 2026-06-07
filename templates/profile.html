@@ -2,95 +2,117 @@
 
 {% block title %}My Profile — Spendly{% endblock %}
 
-{% block extra_head %}
+{% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="profile-container">
-    <header class="page-header">
-        <div class="page-header-content">
-            <h1>My Profile</h1>
-            <p>Welcome back! Here is your financial overview.</p>
-        </div>
-    </header>
-
-    <!-- Top Summary Row -->
-    <section class="summary-grid">
-        <!-- Total Expenses Card -->
-        <div class="summary-card danger">
-            <div class="card-title">
-                Total Expenses
-                <span class="status-icon">−</span>
+    <!-- Sidebar: User Identity -->
+    <aside class="profile-sidebar">
+        <div class="user-card">
+            <div class="avatar-placeholder">
+                {{ user.name[0] | upper if user.name else 'U' }}
             </div>
-            <div class="card-value">₹{{ "%.2f"|format(total_spending) }}</div>
-            <div class="card-meta">Aggregated from all transactions</div>
+            <h1 class="user-name">{{ user.name }}</h1>
+            <p class="user-email">{{ user.email }}</p>
+            <a href="{{ url_for('landing') }}" class="btn-ghost" style="font-size: 0.8rem; padding: 0.4rem 1rem;">View Dashboard</a>
         </div>
+    </aside>
 
-        <!-- Account Status Card -->
-        <div class="summary-card success">
-            <div class="card-title">
-                Account Status
-                <span class="status-icon">✓</span>
+    <!-- Main Dashboard Area -->
+    <div class="profile-dashboard">
+        <!-- Summary Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">
+                    <i data-lucide="wallet" style="width:14px; height:14px;"></i>
+                    Total Spent
+                </div>
+                <div class="stat-value">₹{{ "%.2f"|format(total_spending) }}</div>
             </div>
-            <div class="card-value">Active</div>
-            <div class="card-meta">Verified member since 2026</div>
-        </div>
-
-        <!-- Activity Level Card -->
-        <div class="summary-card">
-            <div class="card-title">
-                Activity Level
-                <span class="status-icon" style="background: var(--color-primary-light); color: var(--color-primary);">◈</span>
+            <div class="stat-card">
+                <div class="stat-label">
+                    <i data-lucide="layers" style="width:14px; height:14px;"></i>
+                    Transactions
+                </div>
+                <div class="stat-value">{{ transaction_count }}</div>
             </div>
-            <div class="card-value">Stable</div>
-            <div class="card-meta">Consistent monthly tracking</div>
-        </div>
-    </section>
-
-    <!-- Detailed Sections -->
-    <section class="detail-grid">
-        <!-- Personal Information -->
-        <div class="detail-card">
-            <h2>Personal Information</h2>
-            <div class="info-list">
-                <div class="info-item">
-                    <span class="info-label">Full Name</span>
-                    <span class="info-value">{{ user.name }}</span>
+            <div class="stat-card">
+                <div class="stat-label">
+                    <i data-lucide="tag" style="width:14px; height:14px;"></i>
+                    Top Category
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Email Address</span>
-                    <span class="info-value">{{ user.email }}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Member Status</span>
-                    <span class="info-value">Premium</span>
-                </div>
+                <div class="stat-value" style="font-size: 1.25rem; margin-top: 0.5rem;">{{ top_category }}</div>
             </div>
         </div>
 
-        <!-- Financial Overview -->
-        <div class="detail-card">
-            <h2>Financial Overview</h2>
-            <div class="info-list">
-                <div class="info-item">
-                    <span class="info-label">Currency</span>
-                    <span class="info-value">INR (₹)</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Tracking Period</span>
-                    <span class="info-value">Life-time</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Budget Status</span>
-                    <span class="info-value" style="color: var(--color-success);">On Track</span>
-                </div>
+        <!-- Category Breakdown -->
+        <section class="category-section">
+            <div class="section-title">
+                <i data-lucide="pie-chart" style="width:20px; height:20px;"></i>
+                Spending by Category
             </div>
-            <a href="{{ url_for('landing') }}" class="btn-action">
-                <span>View detailed transactions</span>
-                <span class="arrow">→</span>
-            </a>
-        </div>
-    </section>
+            <div class="category-list">
+                {% for cat, amount in category_spending %}
+                <div class="category-row">
+                    <div class="category-info">
+                        <span class="category-name">{{ cat }}</span>
+                        <div class="category-bar-container">
+                            {% set percentage = (amount / total_spending * 100) if total_spending > 0 else 0 %}
+                            <div class="category-bar" style="width: {{ percentage }}%;"></div>
+                        </div>
+                    </div>
+                    <span class="category-amount">₹{{ "%.2f"|format(amount) }}</span>
+                </div>
+                {% else %}
+                <p class="user-email">No spending data available yet.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Recent Transactions -->
+        <section class="transactions-section">
+            <div class="section-title">
+                <i data-lucide="list" style="width:20px; height:20px;"></i>
+                Recent Expenses
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="tx-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th style="text-align: right;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exp in recent_expenses %}
+                        <tr>
+                            <td>{{ exp.date }}</td>
+                            <td>{{ exp.description or 'No description' }}</td>
+                            <td><span class="tx-category-badge">{{ exp.category }}</span></td>
+                            <td class="tx-amount">₹{{ "%.2f"|format(exp.amount) }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: var(--ink-muted);">No recent transactions found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        lucide.createIcons();
+    });
+</script>
 {% endblock %}

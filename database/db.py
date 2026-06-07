@@ -108,3 +108,27 @@ def get_user_total_spending(user_id):
     db = get_db()
     result = db.execute('SELECT SUM(amount) as total FROM expenses WHERE user_id = ?', (user_id,)).fetchone()
     return result['total'] if result and result['total'] is not None else 0.0
+
+def get_user_spending_by_category(user_id):
+    """Returns a list of category totals for a user. Result is a list of rows (category, total)."""
+    db = get_db()
+    return db.execute(
+        'SELECT category, SUM(amount) as total FROM expenses WHERE user_id = ? GROUP BY category ORDER BY total DESC',
+        (user_id,)
+    ).fetchall()
+
+def get_recent_expenses(user_id, limit=5):
+    """Returns the most recent expenses for a user."""
+    db = get_db()
+    return db.execute(
+        'SELECT * FROM expenses WHERE user_id = ? ORDER BY date DESC, created_at DESC LIMIT ?',
+        (user_id, limit)
+    ).fetchall()
+
+def get_user_transaction_count(user_id):
+    """Returns the total number of expenses for a user."""
+    db = get_db()
+    result = db.execute('SELECT COUNT(*) as count FROM expenses WHERE user_id = ?', (user_id,)).fetchone()
+    return result['count'] if result else 0
+
+
