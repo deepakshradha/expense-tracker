@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_user_total_spending
+from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_user_total_spending, get_user_spending_by_category, get_recent_expenses, get_user_transaction_count
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -99,8 +99,24 @@ def profile():
 
     user = get_user_by_id(user_id)
     total_spending = get_user_total_spending(user_id)
+    category_spending = get_user_spending_by_category(user_id)
+    recent_expenses = get_recent_expenses(user_id)
+    transaction_count = get_user_transaction_count(user_id)
 
-    return render_template("profile.html", user=user, total_spending=total_spending)
+    # Determine top category for summary stats
+    top_category = category_spending[0]['category'] if category_spending else "N/A"
+
+    return render_template(
+        "profile.html",
+        user=user,
+        total_spending=total_spending,
+        category_spending=category_spending,
+        recent_expenses=recent_expenses,
+        transaction_count=transaction_count,
+        top_category=top_category
+    )
+
+
 
 
 @app.route("/expenses/add")
