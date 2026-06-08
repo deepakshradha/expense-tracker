@@ -97,11 +97,14 @@ def profile():
         flash("Please log in to view your profile", "info")
         return redirect(url_for("login"))
 
+    start_date = request.args.get("start_date")
+    end_date = request.args.get("end_date")
+
     user = get_user_by_id(user_id)
-    total_spending = get_user_total_spending(user_id)
-    category_spending = get_user_spending_by_category(user_id)
-    recent_expenses = get_recent_expenses(user_id)
-    transaction_count = get_user_transaction_count(user_id)
+    total_spending = get_user_total_spending(user_id, start_date, end_date)
+    category_spending = get_user_spending_by_category(user_id, start_date, end_date)
+    recent_expenses = get_recent_expenses(user_id, start_date=start_date, end_date=end_date)
+    transaction_count = get_user_transaction_count(user_id, start_date, end_date)
 
     # Determine top category for summary stats
     top_category = category_spending[0]['category'] if category_spending else "N/A"
@@ -113,7 +116,9 @@ def profile():
         category_spending=category_spending,
         recent_expenses=recent_expenses,
         transaction_count=transaction_count,
-        top_category=top_category
+        top_category=top_category,
+        start_date=start_date,
+        end_date=end_date
     )
 
 
