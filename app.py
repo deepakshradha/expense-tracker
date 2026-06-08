@@ -19,7 +19,7 @@ def landing():
 def register():
     if session.get("user_id"):
         flash("You are already logged in", "info")
-        return redirect(url_for("landing"))
+        return redirect(url_for("profile"))
 
     if request.method == "POST":
         name = request.form.get("name")
@@ -47,7 +47,7 @@ def register():
 def login():
     if session.get("user_id"):
         flash("You are already logged in", "info")
-        return redirect(url_for("landing"))
+        return redirect(url_for("profile"))
 
     if request.method == "POST":
         email = request.form.get("email")
