@@ -103,32 +103,55 @@ def get_user_by_id(user_id):
     db = get_db()
     return db.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
 
-def get_user_total_spending(user_id):
-    """Calculates the sum of all expenses for a given user. Returns the total or 0.0 if none."""
+def _apply_date_filter(query, params, start_date, end_date):
+    """Helper to apply optional date range filters to a query. Returns updated query and params."""
+    if start_date:
+        query += ' AND date >= ?'
+        params.append(start_date)
+    if end_date:
+        query += ' AND date <= ?'
+        params.append(end_date)
+    return query, params
+
+def get_user_total_spending(user_id, start_date=None, end_date=None):
+    """Calculates the sum of expenses for a given user within an optional date range. Returns the total or 0.0 if none."""
     db = get_db()
-    result = db.execute('SELECT SUM(amount) as total FROM expenses WHERE user_id = ?', (user_id,)).fetchone()
+    query = 'SELECT SUM(amount) as total FROM expenses WHERE user_id = ?'
+    params = [user_id]
+
+    query, params = _apply_date_filter(query, params, start_date, end_date)
+
+    result = db.execute(query, params).fetchone()
     return result['total'] if result and result['total'] is not None else 0.0
 
-def get_user_spending_by_category(user_id):
-    """Returns a list of category totals for a user. Result is a list of rows (category, total)."""
+def get_user_spending_by_category(user_id, start_date=None, end_date=None):
+    """Returns a list of category totals for a user within an optional date range. Result is a list of rows (category, total)."""
     db = get_db()
-    return db.execute(
-        'SELECT category, SUM(amount) as total FROM expenses WHERE user_id = ? GROUP BY category ORDER BY total DESC',
-        (user_id,)
-    ).fetchall()
+    query = 'SELECT category, SUM(amount) as total FROM expenses WHERE user_id = ?'
+    params = [user_id]
 
-def get_recent_expenses(user_id, limit=5):
-    """Returns the most recent expenses for a user."""
-    db = get_db()
-    return db.execute(
-        'SELECT * FROM expenses WHERE user_id = ? ORDER BY date DESC, created_at DESC LIMIT ?',
-        (user_id, limit)
-    ).fetchall()
+    query, params = _apply_date_filter(query, params, start_date, end_date)
+    query += ' GROUP BY category ORDER BY total DESC'
+    return db.execute(query, params).fetchall()
 
-def get_user_transaction_count(user_id):
-    """Returns the total number of expenses for a user."""
+def get_recent_expenses(user_id, limit=5, start_date=None, end_date=None):
+    """Returns the most recent expenses for a user within an optional date range."""
     db = get_db()
-    result = db.execute('SELECT COUNT(*) as count FROM expenses WHERE user_id = ?', (user_id,)).fetchone()
+    query = 'SELECT * FROM expenses WHERE user_id = ?'
+    params = [user_id]
+
+    query, params = _apply_date_filter(query, params, start_date, end_date)
+    query += ' ORDER BY date DESC, created_at DESC LIMIT ?'
+    params.append(limit)
+    return db.execute(query, params).fetchall()
+
+def get_user_transaction_count(user_id, start_date=None, end_date=None):
+    """Returns the total number of expenses for a user within an optional date range."""
+    db = get_db()
+    query = 'SELECT COUNT(*) as count FROM expenses WHERE user_id = ?'
+    params = [user_id]
+
+    query, params = _apply_date_filter(query, params, start_date, end_date)
+
+    result = db.execute(query, params).fetchone()
     return result['count'] if result else 0
-
-
