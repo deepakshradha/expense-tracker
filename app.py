@@ -1,10 +1,14 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, g
-from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_user_total_spending, get_user_spending_by_category, get_recent_expenses, get_user_transaction_count, add_expense as db_add_expense
+import os
+from flask import Flask, render_template, request, redirect, url_for, flash, session, g, abort
+from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_user_total_spending, get_user_spending_by_category, get_recent_expenses, get_user_transaction_count, add_expense as db_add_expense, get_expense_by_id as db_get_expense_by_id, update_expense as db_update_expense
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date, datetime
 
 app = Flask(__name__)
-app.secret_key = 'dev-key-for-spendly'
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-key-for-spendly')
+
+# Shared allowlist — must stay in sync with the DB CHECK constraint
+ALLOWED_CATEGORIES = ('Food', 'Transport', 'Bills', 'Health', 'Entertainment', 'Shopping', 'Other')
 
 
 @app.teardown_appcontext
@@ -157,8 +161,7 @@ def add_expense():
 
         # Validation for allowed categories is partially handled by HTML select
         # but we should check here too just in case of direct POST requests.
-        allowed_categories = ('Food', 'Transport', 'Bills', 'Health', 'Entertainment', 'Shopping', 'Other')
-        if category not in allowed_categories:
+        if category not in ALLOWED_CATEGORIES:
             flash("Invalid category selected", "error")
             return redirect(url_for("add_expense"))
 
@@ -186,9 +189,57 @@ def add_expense():
     return render_template("add_expense.html", today=today)
 
 
-@app.route("/expenses/<int:id>/edit")
-def edit_expense(id):
-    return "Edit expense — coming in Step 8"
+@app.route("/expenses/<int:id>/edit", methods=["GET", "POST"])
+def edit_expense(id):  # noqa: A002 — 'id' is the URL param name; use expense_id internally
+    expense_id = id  # rename to avoid shadowing Python built-in in the rest of the function
+    user_id = session.get("user_id")
+    if not user_id:
+        flash("Please log in to edit an expense", "info")
+        return redirect(url_for("login"))
+
+    expense = db_get_expense_by_id(expense_id)
+    if expense is None:
+        abort(404)
+    if expense["user_id"] != user_id:
+        abort(403)
+
+    if request.method == "POST":
+        amount_str = request.form.get("amount")
+        category = request.form.get("category")
+        date_str = request.form.get("date")
+        description = request.form.get("description")
+
+        if not amount_str or not category or not date_str:
+            flash("Amount, category, and date are required", "error")
+            return redirect(url_for("edit_expense", id=expense_id))
+
+        try:
+            amount = float(amount_str)
+            if amount <= 0:
+                raise ValueError("Amount must be positive")
+        except ValueError:
+            flash("Please enter a valid positive amount", "error")
+            return redirect(url_for("edit_expense", id=expense_id))
+
+        if category not in ALLOWED_CATEGORIES:
+            flash("Invalid category selected", "error")
+            return redirect(url_for("edit_expense", id=expense_id))
+
+        try:
+            datetime.strptime(date_str, '%Y-%m-%d')
+        except ValueError:
+            flash("Invalid date format. Please use YYYY-MM-DD", "error")
+            return redirect(url_for("edit_expense", id=expense_id))
+
+        try:
+            db_update_expense(expense_id, amount, category, date_str, description, user_id)
+            flash("Expense updated successfully!", "success")
+            return redirect(url_for("profile"))
+        except Exception as e:
+            flash(f"An error occurred while saving: {str(e)}", "error")
+            return redirect(url_for("edit_expense", id=expense_id))
+
+    return render_template("edit_expense.html", expense=expense)
 
 
 @app.route("/expenses/<int:id>/delete")
