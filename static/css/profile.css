@@ -292,6 +292,24 @@
     font-variant-numeric: tabular-nums;
 }
 
+.btn-edit {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-light);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-edit:hover {
+    background: transparent;
+    border-color: var(--accent);
+}
+
 @media (max-width: 900px) {
     .profile-container {
         grid-template-columns: 1fr;

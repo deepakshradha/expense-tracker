@@ -164,3 +164,19 @@ def add_expense(user_id, amount, category, date, description):
     )
     db.commit()
     return cursor.lastrowid
+
+def get_expense_by_id(expense_id):
+    """Fetches a single expense by its ID. Returns the row or None."""
+    db = get_db()
+    return db.execute('SELECT * FROM expenses WHERE id = ?', (expense_id,)).fetchone()
+
+def update_expense(expense_id, amount, category, date, description, user_id):
+    """Updates the mutable fields of an existing expense.
+    Requires user_id to scope the UPDATE for defence-in-depth. Returns nothing.
+    """
+    db = get_db()
+    db.execute(
+        'UPDATE expenses SET amount = ?, category = ?, date = ?, description = ? WHERE id = ? AND user_id = ?',
+        (amount, category, date, description, expense_id, user_id)
+    )
+    db.commit()
