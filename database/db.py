@@ -1,14 +1,13 @@
 import sqlite3
-from flask import g
+from flask import g, current_app
 from werkzeug.security import generate_password_hash
-
-DATABASE = 'expense_tracker.db'
 
 def get_db():
     """Returns the database connection for the current request."""
     if 'db' not in g:
+        db_path = current_app.config.get('DATABASE', 'expense_tracker.db')
         g.db = sqlite3.connect(
-            DATABASE,
+            db_path,
             detect_types=sqlite3.PARSE_DECLTYPES
         )
         g.db.row_factory = sqlite3.Row
@@ -155,3 +154,13 @@ def get_user_transaction_count(user_id, start_date=None, end_date=None):
 
     result = db.execute(query, params).fetchone()
     return result['count'] if result else 0
+
+def add_expense(user_id, amount, category, date, description):
+    """Adds a new expense for a user. Returns the ID of the new expense."""
+    db = get_db()
+    cursor = db.execute(
+        'INSERT INTO expenses (user_id, amount, category, date, description) VALUES (?, ?, ?, ?, ?)',
+        (user_id, amount, category, date, description)
+    )
+    db.commit()
+    return cursor.lastrowid

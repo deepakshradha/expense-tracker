@@ -90,9 +90,12 @@
 
         <!-- Recent Transactions -->
         <section class="transactions-section">
-            <div class="section-title">
-                <i data-lucide="list" style="width:20px; height:20px;"></i>
-                Recent Expenses
+            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div class="section-title">
+                    <i data-lucide="list" style="width:20px; height:20px;"></i>
+                    Recent Expenses
+                </div>
+                <a href="{{ url_for('add_expense') }}" class="btn-primary" style="text-decoration: none; background: var(--primary-color, #4f46e5); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 500;">+ Add Expense</a>
             </div>
             <div style="overflow-x: auto;">
                 <table class="tx-table">
