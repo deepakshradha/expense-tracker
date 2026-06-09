@@ -12,7 +12,12 @@ def app():
     })
     with flask_app.app_context():
         init_db()
+        db = get_db()
+        db.execute('DELETE FROM expenses')
+        db.execute('DELETE FROM users')
+        db.commit()
         yield flask_app
+
 
 @pytest.fixture
 def client(app):
