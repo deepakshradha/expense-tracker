@@ -1,9 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
-from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_user_total_spending, get_user_spending_by_category, get_recent_expenses, get_user_transaction_count
+from flask import Flask, render_template, request, redirect, url_for, flash, session, g
+from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_user_total_spending, get_user_spending_by_category, get_recent_expenses, get_user_transaction_count, add_expense as db_add_expense
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date, datetime
 
 app = Flask(__name__)
 app.secret_key = 'dev-key-for-spendly'
+
+
+@app.teardown_appcontext
+def teardown_db(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
 
 
 # ------------------------------------------------------------------ #
@@ -122,11 +130,60 @@ def profile():
     )
 
 
-
-
-@app.route("/expenses/add")
+@app.route("/expenses/add", methods=["GET", "POST"])
 def add_expense():
-    return "Add expense — coming in Step 7"
+    user_id = session.get("user_id")
+    if not user_id:
+        flash("Please log in to add an expense", "info")
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        amount_str = request.form.get("amount")
+        category = request.form.get("category")
+        date_str = request.form.get("date")
+        description = request.form.get("description")
+
+        if not amount_str or not category or not date_str:
+            flash("Amount, category, and date are required", "error")
+            return redirect(url_for("add_expense"))
+
+        try:
+            amount = float(amount_str)
+            if amount <= 0:
+                raise ValueError("Amount must be positive")
+        except ValueError:
+            flash("Please enter a valid positive amount", "error")
+            return redirect(url_for("add_expense"))
+
+        # Validation for allowed categories is partially handled by HTML select
+        # but we should check here too just in case of direct POST requests.
+        allowed_categories = ('Food', 'Transport', 'Bills', 'Health', 'Entertainment', 'Shopping', 'Other')
+        if category not in allowed_categories:
+            flash("Invalid category selected", "error")
+            return redirect(url_for("add_expense"))
+
+        # Ensure date is valid (basic check, since it's from input type="date")
+        if not date_str:
+            flash("Please provide a valid date", "error")
+            return redirect(url_for("add_expense"))
+
+        try:
+            datetime.strptime(date_str, '%Y-%m-%d')
+        except ValueError:
+            flash("Invalid date format. Please use YYYY-MM-DD", "error")
+            return redirect(url_for("add_expense"))
+
+        try:
+            db_add_expense(user_id, amount, category, date_str, description)
+            flash("Expense added successfully!", "success")
+            return redirect(url_for("profile"))
+        except Exception as e:
+            flash(f"An error occurred while saving: {str(e)}", "error")
+            return redirect(url_for("add_expense"))
+
+    # GET request
+    today = date.today().isoformat()
+    return render_template("add_expense.html", today=today)
 
 
 @app.route("/expenses/<int:id>/edit")
