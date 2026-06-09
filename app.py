@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session, g, abort
-from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_user_total_spending, get_user_spending_by_category, get_recent_expenses, get_user_transaction_count, add_expense as db_add_expense, get_expense_by_id as db_get_expense_by_id, update_expense as db_update_expense
+from database.db import init_db, seed_db, create_user, get_user_by_email, get_user_by_id, get_user_total_spending, get_user_spending_by_category, get_recent_expenses, get_user_transaction_count, add_expense as db_add_expense, get_expense_by_id as db_get_expense_by_id, update_expense as db_update_expense, delete_expense as db_delete_expense
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date, datetime
 
@@ -242,9 +242,27 @@ def edit_expense(id):  # noqa: A002 — 'id' is the URL param name; use expense_
     return render_template("edit_expense.html", expense=expense)
 
 
-@app.route("/expenses/<int:id>/delete")
+@app.route("/expenses/<int:id>/delete", methods=["POST"])
 def delete_expense(id):
-    return "Delete expense — coming in Step 9"
+    expense_id = id
+    user_id = session.get("user_id")
+    if not user_id:
+        flash("Please log in to delete an expense", "info")
+        return redirect(url_for("login"))
+
+    expense = db_get_expense_by_id(expense_id)
+    if expense is None:
+        abort(404)
+    if expense["user_id"] != user_id:
+        abort(403)
+
+    try:
+        db_delete_expense(expense_id, user_id)
+        flash("Expense deleted successfully!", "success")
+    except Exception as e:
+        flash(f"An error occurred while deleting: {str(e)}", "error")
+
+    return redirect(url_for("profile"))
 
 
 if __name__ == "__main__":

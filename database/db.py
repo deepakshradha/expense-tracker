@@ -180,3 +180,13 @@ def update_expense(expense_id, amount, category, date, description, user_id):
         (amount, category, date, description, expense_id, user_id)
     )
     db.commit()
+
+def delete_expense(expense_id, user_id):
+    """Deletes an expense by id, scoped to user_id for defence-in-depth."""
+    db = get_db()
+    db.execute(
+        'DELETE FROM expenses WHERE id = ? AND user_id = ?',
+        (expense_id, user_id)
+    )
+    db.commit()
+

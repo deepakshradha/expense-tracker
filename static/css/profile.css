@@ -310,6 +310,32 @@
     border-color: var(--accent);
 }
 
+.btn-delete {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--danger, #dc2626);
+    background: var(--danger-light, #fef2f2);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-delete:hover {
+    background: transparent;
+    border-color: var(--danger, #dc2626);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+
 @media (max-width: 900px) {
     .profile-container {
         grid-template-columns: 1fr;
