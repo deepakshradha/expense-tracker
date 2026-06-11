@@ -1,4 +1,4 @@
-This expense tracker i made using claude code in which i have learnt about:
+This expense tracker project, I made using claude code in which i have learnt about:
 1. README.md
 2. Skills
 3. Custom Command
